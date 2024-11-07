@@ -48,16 +48,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $conn->close();
-
-echo "down here";
-die();
 ?>
-
-<?php
-// TODO:
-//session_start();
-//if (!isset($_SESSION['user_id'])) {
-//    header('Location: /login/login.php');
-//    exit();
-//}
-//?>

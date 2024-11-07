@@ -18,7 +18,7 @@ include_once('../layout/header.php');
         <div class="mb-3">
             <input type="password" class="form-control" id="pwd" placeholder="Passwort" name="pswd" required>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-success">Login</button>
     </form>
 </div>
 

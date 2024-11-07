@@ -18,6 +18,10 @@ session_start();
     <!--- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+
     <title><?= isset($PageTitle) ? $PageTitle : "Lotto"?></title>
 </head>
 <body>
@@ -32,6 +36,15 @@ session_start();
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="http://lotto.konsum-staldenried.ch/">Home</a>
                     </li>
+                    <?php
+                    if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
+                        ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/lotto/lottos.php">Lottos</a>
+                        </li>
+                        <?php
+                    }
+                    ?>
 <!--                    <li class="nav-item dropdown">-->
 <!--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
 <!--                            Dropdown-->
