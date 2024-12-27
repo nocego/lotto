@@ -17,8 +17,8 @@ Todo:
 - [x] Create Creation of a Lotto
   - [x] Lottos can be disabled and not shown afterwards
 - [x] Create edit lotto button
-- [ ] Create view of a lotto
-  - [ ] List Series
+- [x] Create view of a lotto
+  - [x] List Series
     - [x] Create Series in DB
     - [x] Create create Series Form
     - [x] Series overview
@@ -27,10 +27,14 @@ Todo:
       - [x] Overview for Prices
     - [ ] Excel import series with prices
     - [ ] Excel export series with prices
-- [ ] Create Creation of a Player in a Lotto
-  - [ ] Create Player in DB
-  - [ ] Create Player Form
-- [ ] Create Card for Lotto
+- [x] Create Creation of a Player in a Lotto
+  - [x] Create Player in DB
+  - [x] Create Player Form
+- [x] Create Card for Lotto
 - [ ] Play a Series
-- [ ] Create Play Screen where the number is entered and the winner is shown
+  - [ ] Create drawn card table connected to series
+  - [ ] Form to input drawn number
+  - [ ] Popup to show winner, if one is found
+    - [ ] Person can select if lotto saal is, if so the winner is set one back
+  - [ ] Button to set lotto saal
 - [ ] Create Player import from CSV
