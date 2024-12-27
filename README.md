@@ -18,9 +18,19 @@ Todo:
   - [x] Lottos can be disabled and not shown afterwards
 - [x] Create edit lotto button
 - [ ] Create view of a lotto
+  - [ ] List Series
+    - [x] Create Series in DB
+    - [x] Create create Series Form
+    - [x] Series overview
+      - [x] Create Prices in DB
+      - [x] Create create Price Form
+      - [x] Overview for Prices
+    - [ ] Excel import series with prices
+    - [ ] Excel export series with prices
 - [ ] Create Creation of a Player in a Lotto
   - [ ] Create Player in DB
   - [ ] Create Player Form
 - [ ] Create Card for Lotto
+- [ ] Play a Series
 - [ ] Create Play Screen where the number is entered and the winner is shown
 - [ ] Create Player import from CSV

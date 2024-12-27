@@ -42,7 +42,7 @@ include_once('../layout/header.php');
                                 <td>" . htmlspecialchars($date->format('d.m.Y')) . "</td>
                                 <td class='text-end'>
                                     <a class='btn btn-success btn-sm' href='/lotto/view.php?id=".htmlspecialchars($row["ID"])."'><i class='fa fa-eye'></i></a>
-                                    <a class='btn btn-primary btn-sm' href='/lotto/update.php?id=".htmlspecialchars($row["ID"])."'><i class='fa fa-pencil'></i></a>
+                                    <a class='btn btn-primary btn-sm' href='/lotto/update.php?id=".htmlspecialchars($row["ID"])."'><i class='fa fa-edit'></i></a>
                                     <!--<a class='btn btn-danger btn-sm' href='#' onclick='confirmDelete(".htmlspecialchars($row["ID"]).")'><i class='fa fa-trash'></i></a>-->
                                 </td>
                             </tr>";
