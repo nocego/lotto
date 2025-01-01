@@ -30,6 +30,13 @@ if ($lottoResult->num_rows < 1) {
     exit();
 }
 
+$nextSequence = 1;
+$sql = "SELECT sequence FROM Price where series_id = ".$seriesId." ORDER BY sequence DESC LIMIT 1";
+$sequenceResult = $conn->query($sql);
+if ($sequenceResult->num_rows > 0) {
+    $nextSequence = $sequenceResult->fetch_assoc()['sequence'] + 1;
+}
+
 include_once('../layout/header.php');
 ?>
 
@@ -42,6 +49,9 @@ include_once('../layout/header.php');
     <form action="/price/handle_add.php" method="post" class="">
         <input type="hidden" name="series_id" value="<?=$seriesId?>">
         <div class="mb-3 mt-3">
+            <input type="number" class="form-control" id="sequence" placeholder="Reihenfolge" name="sequence" value="<?=$nextSequence?>">
+        </div>
+        <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="name" placeholder="Preis" name="name" required>
         </div>
         <div class="mb-3 mt-3">
@@ -49,6 +59,9 @@ include_once('../layout/header.php');
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner" placeholder="Sieger" name="winner">
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_number" placeholder="Siegerzahl" name="winner_number">
         </div>
         <button type="submit" class="btn btn-success">Erstellen</button>
     </form>

@@ -46,8 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $sponsor = $_POST['sponsor'];
     $winner = $_POST['winner'];
+    $sequence = $_POST['sequence'];
+    $winnerNumber = $_POST['winner_number'];
     if (empty($winner)) {
         $winner = null;
+    }
+    if (empty($sequence)) {
+        $sequence = 0;
+    }
+    if (empty($winnerNumber)) {
+        $winnerNumber = null;
     }
 
     // Validate input
@@ -56,12 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and execute query
-    $stmt = $conn->prepare('UPDATE Price SET name = ?, sponsor = ?, winner = ? WHERE ID = ?');
+    $stmt = $conn->prepare('UPDATE Price SET name = ?, sponsor = ?, winner = ?, sequence = ?, winner_number = ? WHERE ID = ?');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
 
-    $bind = $stmt->bind_param('sssi', $name, $sponsor, $winner, $id);
+    $bind = $stmt->bind_param('sssiii', $name, $sponsor, $winner, $sequence, $winnerNumber, $id);
     if ($bind === false) {
         die('Bind param failed: ' . htmlspecialchars($stmt->error));
     }

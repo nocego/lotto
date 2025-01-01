@@ -20,11 +20,12 @@ if ($result->num_rows < 1) {
     exit();
 }
 
-$sql = "SELECT name, lotto_id FROM Series where ID = ".$id;
+$sql = "SELECT name, lotto_id, mode FROM Series where ID = ".$id;
 $seriesResult = $conn->query($sql);
 if ($seriesResult->num_rows > 0) {
     $row = $seriesResult->fetch_assoc();
     $name = $row["name"];
+    $mode = $row["mode"];
 } else {
     header('Location: /lotto/lottos.php');
     exit();
@@ -40,11 +41,25 @@ include_once('../layout/header.php');
         </div>
     </div>
     <form action="/series/handle_update.php" method="post" class="">
-        <input type="hidden" name="id" value="<?=$id?>">
-        <div class="mb-3 mt-3">
-            <input type="text" class="form-control" id="name" placeholder="Name" name="name" value='<?=$name?>' required>
+        <div class="row">
+            <input type="hidden" name="id" value="<?=$id?>">
+            <div class="col-12 col-md-6">
+                <div class="mb-3 mt-3">
+                    <input type="text" class="form-control" id="name" placeholder="Name" name="name" value='<?=$name?>' required>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="mb-3 mt-3">
+                    <select class="form-control" id="mode" name="mode" required>
+                        <option value="1" <?php if($mode == 1){?>selected<?php }?>>Lottozahlen (gezogene Zahlen)</option>
+                        <option value="2" <?php if($mode == 2){?>selected<?php }?>>Kartenzahlen (auf der verkauften Karte)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">Bearbeiten</button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-success">Bearbeiten</button>
     </form>
 </div>
 

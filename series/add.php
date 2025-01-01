@@ -29,11 +29,25 @@ include_once('../layout/header.php');
         </div>
     </div>
     <form action="/series/handle_add.php" method="post" class="">
-        <input type="hidden" name="lotto_id" value="<?=$id?>">
-        <div class="mb-3 mt-3">
-            <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
+        <div class="row">
+            <input type="hidden" name="lotto_id" value="<?=$id?>">
+            <div class="col-12 col-md-6">
+                <div class="mb-3 mt-3">
+                    <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="mb-3 mt-3">
+                    <select class="form-control" id="mode" name="mode" required>
+                        <option value="1">Lottozahlen (gezogene Zahlen)</option>
+                        <option value="2">Kartenzahlen (auf der verkauften Karte)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">Erstellen</button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-success">Erstellen</button>
     </form>
 </div>
 

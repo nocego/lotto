@@ -33,19 +33,20 @@ if ($result->num_rows < 1) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $name = $_POST['name'];
+    $mode = $_POST['mode'];
 
     // Validate input
-    if (empty($id) || empty($name)) {
+    if (empty($id) || empty($name) || empty($mode)) {
         die('Please fill in both fields.');
     }
 
     // Prepare and execute query
-    $stmt = $conn->prepare('UPDATE Series SET name = ? WHERE ID = ?');
+    $stmt = $conn->prepare('UPDATE Series SET name = ?, mode = ? WHERE ID = ?');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
 
-    $bind = $stmt->bind_param('si', $name, $id);
+    $bind = $stmt->bind_param('sii', $name, $mode, $id);
     if ($bind === false) {
         die('Bind param failed: ' . htmlspecialchars($stmt->error));
     }

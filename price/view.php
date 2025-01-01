@@ -33,7 +33,7 @@ if ($lottoResult->num_rows < 1) {
 }
 $lottoRow = $lottoResult->fetch_assoc();
 
-$sql = "SELECT ID, series_id, sponsor, name, winner FROM Price where series_id = ".$seriesId;
+$sql = "SELECT ID, sequence, series_id, sponsor, name, winner FROM Price where series_id = ".$seriesId;
 $priceResult = $conn->query($sql);
 
 
@@ -52,6 +52,7 @@ include_once('../layout/header.php');
             <table id="prices" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
+                        <th>Reihenfolge</th>
                         <th>Preis</th>
                         <th>Sponsor</th>
                         <th>Sieger</th>
@@ -65,6 +66,7 @@ include_once('../layout/header.php');
                     while($row = $priceResult->fetch_assoc()) {
                         echo "
                             <tr>
+                                <td>" . htmlspecialchars($row["sequence"]) . "</td>
                                 <td>" . htmlspecialchars($row["name"]) . "</td>
                                 <td>" . htmlspecialchars($row["sponsor"]) . "</td>
                                 <td>" . htmlspecialchars($row["winner"]) . "</td>
@@ -79,6 +81,7 @@ include_once('../layout/header.php');
                 </tbody>
                 <tfoot>
                 <tr>
+                    <th>Reihenfolge</th>
                     <th>Preis</th>
                     <th>Sponsor</th>
                     <th>Sieger</th>

@@ -15,8 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $sponsor = $_POST['sponsor'];
     $winner = $_POST['winner'];
+    $sequence = $_POST['sequence'];
+    $winnerNumber = $_POST['winner_number'];
     if (empty($winner)) {
         $winner = null;
+    }
+    if (empty($sequence)) {
+        $sequence = 0;
+    }
+    if (empty($winnerNumber)) {
+        $winnerNumber = null;
     }
 
     // Validate input
@@ -25,12 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and execute query
-    $stmt = $conn->prepare('INSERT INTO Price (series_id, name, sponsor, winner) VALUES (?, ?, ?, ?)');
+    $stmt = $conn->prepare('INSERT INTO Price (series_id, name, sponsor, winner, sequence, winner_number) VALUES (?, ?, ?, ?, ?, ?)');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
 
-    $bind = $stmt->bind_param('isss', $_POST['series_id'], $name, $sponsor, $winner);
+    $bind = $stmt->bind_param('isssii', $_POST['series_id'], $name, $sponsor, $winner, $sequence, $winnerNumber);
     if ($bind === false) {
         die('Bind param failed: ' . htmlspecialchars($stmt->error));
     }

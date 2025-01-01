@@ -27,7 +27,7 @@ $dateFormatted = $date->format('d.m.Y');
 $PageTitle=$name." - ".$dateFormatted;
 
 // Get all lottos from the table Lotto
-$sql = "SELECT ID, name FROM Series where lotto_id = ".$id;
+$sql = "SELECT ID, name, mode FROM Series where lotto_id = ".$id;
 $seriesResult = $conn->query($sql);
 
 $sql = "SELECT * FROM Card where lotto_id = ".$id;
@@ -49,6 +49,7 @@ include_once('../layout/header.php');
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Modus</th>
                     <th class="no-sort"></th>
                 </tr>
                 </thead>
@@ -58,12 +59,18 @@ include_once('../layout/header.php');
                     // Output data of each row
                     while($row = $seriesResult->fetch_assoc()) {
                         $date = new DateTime($row["date"]);
+                        if ($row["mode"] == 1) {
+                            $mode = "Lottozahlen (gezogene Zahlen)";
+                        } else {
+                            $mode = "Kartenzahlen (auf der verkauften Karte)";
+                        }
                         echo "
                             <tr>
                                 <td>" . htmlspecialchars($row["name"]) . "</td>
+                                <td>" . $mode . "</td>
                                 <td class='text-end'>
                                     <a class='btn btn-primary btn-sm' href='/price/view.php?series_id=".htmlspecialchars($row["ID"])."'><i class='fa fa-list'></i></a>
-                                    <a class='btn btn-success btn-sm' href='/series/view.php?id=".htmlspecialchars($row["ID"])."'>TODO<i class='fa fa-play'></i></a>
+                                    <a class='btn btn-success btn-sm' href='/series/play.php?id=".htmlspecialchars($row["ID"])."'><i class='fa fa-play'></i></a>
                                     <a class='btn btn-primary btn-sm' href='/series/update.php?id=".htmlspecialchars($row["ID"])."&lotto_id=".htmlspecialchars($id)."'><i class='fa fa-pen'></i></a>
                                     <a class='btn btn-danger btn-sm' href='#' onclick='confirmDelete(".htmlspecialchars($row["ID"]).")'><i class='fa fa-trash'></i></a>
                                 </td>
@@ -75,6 +82,7 @@ include_once('../layout/header.php');
                 <tfoot>
                 <tr>
                     <th>Name</th>
+                    <th>Modus</th>
                     <th></th>
                 </tr>
                 </tfoot>

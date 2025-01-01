@@ -52,6 +52,9 @@ include_once('../layout/header.php');
     <form action="/price/handle_update.php" method="post" class="">
         <input type="hidden" name="id" value="<?=$id?>">
         <div class="mb-3 mt-3">
+            <input type="number" class="form-control" id="sequence" placeholder="Reihenfolge" name="sequence" value="<?=$priceRow['sequence']?>">
+        </div>
+        <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="name" placeholder="Preis" name="name" value='<?=$priceRow['name']?>' required>
         </div>
         <div class="mb-3 mt-3">
@@ -59,6 +62,9 @@ include_once('../layout/header.php');
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner" placeholder="Sieger" name="winner" value='<?=$priceRow['winner']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_number" placeholder="Siegerzahl" name="winner_number" value='<?=$priceRow['winner_number']?>'>
         </div>
         <button type="submit" class="btn btn-success">Bearbeiten</button>
     </form>
