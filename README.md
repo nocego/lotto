@@ -31,14 +31,17 @@ Todo:
   - [x] Create Player in DB
   - [x] Create Player Form
 - [x] Create Card for Lotto
-- [ ] Support both gamemodes
-- [ ] Play a Series
-  - [ ] Create drawn card table connected to series
-  - [ ] Form to input drawn number
-  - [ ] Popup to show winner, if one is found
-    - [ ] Person can select if lotto saal is, if so the winner is set one back
-  - [ ] Button to set lotto saal
-- [ ] Show winners
-  - [ ] export winners to csv
-- [ ] Show infos to drawn numbers
-- [ ] Create Player import from CSV
+- [x] Support both gamemodes
+- [x] Play a Series
+  - [x] Create drawn card table connected to series
+  - [x] Form to input drawn number
+  - [x] Popup to show winner, if one is found
+    - [x] Person can select if lotto saal is, if so the winner is set one back
+  - [x] Button to set lotto saal
+- [x] Show winners
+  - [x] export winners to csv
+- [x] Show infos to drawn numbers
+- [ ] Create Series (including prices) export to CSV
+- [ ] Create Series (including prices) import from CSV
+- [ ] Create Card export to CSV
+- [ ] Create Card import from CSV
