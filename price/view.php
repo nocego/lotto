@@ -33,7 +33,7 @@ if ($lottoResult->num_rows < 1) {
 }
 $lottoRow = $lottoResult->fetch_assoc();
 
-$sql = "SELECT ID, sequence, series_id, sponsor, name, winner FROM Price where series_id = ".$seriesId;
+$sql = "SELECT * FROM Price where series_id = ".$seriesId;
 $priceResult = $conn->query($sql);
 
 
@@ -64,12 +64,52 @@ include_once('../layout/header.php');
                 if ($priceResult->num_rows > 0) {
                     // Output data of each row
                     while($row = $priceResult->fetch_assoc()) {
+                        $winnerString = "";
+                        if ($row["winner_name"] != null) {
+                            $winnerString .= $row["winner_name"];
+                        }
+                        if ($row["winner_birthyear"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= ", ";
+                            }
+                            $winnerString .= $row["winner_birthyear"];
+                        }
+                        if ($row["winner_location"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= ", ";
+                            }
+                            $winnerString .= $row["winner_location"];
+                        }
+                        if ($row["winner_seller"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Verkäufer: " . $row["winner_seller"];
+                        }
+                        if ($row["winner_card_number"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Kartennummer: " . $row["winner_card_number"];
+                        }
+                        if ($row["winner_number_1"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Zahl 1: " . $row["winner_number_1"];
+                        }
+                        if ($row["winner_number_2"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Zahl 2: " . $row["winner_number_2"];
+                        }
                         echo "
                             <tr>
                                 <td>" . htmlspecialchars($row["sequence"]) . "</td>
                                 <td>" . htmlspecialchars($row["name"]) . "</td>
                                 <td>" . htmlspecialchars($row["sponsor"]) . "</td>
-                                <td>" . htmlspecialchars($row["winner"]) . "</td>
+                                <td>" . $winnerString . "</td>
                                 <td class='text-end'>
                                     <a class='btn btn-primary btn-sm' href='/price/update.php?id=".htmlspecialchars($row["ID"])."'><i class='fa fa-pen'></i></a>
                                     <a class='btn btn-danger btn-sm' href='#' onclick='confirmDelete(".htmlspecialchars($row["ID"]).")'><i class='fa fa-trash'></i></a>

@@ -33,6 +33,26 @@ $seriesResult = $conn->query($sql);
 $sql = "SELECT * FROM Card where lotto_id = ".$id;
 $cardResult = $conn->query($sql);
 
+$sql = "SELECT ID FROM Series where lotto_id = ".$id;
+$seriesOfThisLottoResult = $conn->query($sql);
+$seriesIds = [];
+if ($seriesOfThisLottoResult->num_rows > 0) {
+    while($row = $seriesOfThisLottoResult->fetch_assoc()) {
+        $seriesIds[] = $row['ID'];
+    }
+}
+$idsString = implode(',', $seriesIds);
+
+$sql = "SELECT Series.name as `Seriesname`, Price.name as `Pricename`, Price.sponsor, Price.winner_name, Price.winner_birthyear, Price.winner_location, Price.winner_seller, Price.winner_card_number, Price.winner_number_1, Price.winner_number_2  FROM Price INNER JOIN Series on Series.ID = Price.series_id where series_id in (".$idsString.") and winner_name is not null ORDER BY series_id ASC, sequence ASC";
+$winnersResult = $conn->query($sql);
+
+$sql = "SELECT COUNT(*) as `count`, MAX(card_nr) as `max`, MIN(card_nr) as `min`, MAX(number_1) as `max1`, MIN(number_1) as `min1`, MAX(number_2) as `max2`, MIN(number_2) as `min2` FROM Card where lotto_id = ".$id;
+$triviaResult = $conn->query($sql);
+$trivia = $triviaResult->fetch_assoc();
+
+$sql = "SELECT number, COUNT(*) as count FROM Number WHERE series_id IN (".$idsString.") GROUP BY number ORDER BY count DESC LIMIT 5";
+$numbersResult = $conn->query($sql);
+
 include_once('../layout/header.php');
 ?>
 
@@ -145,9 +165,134 @@ include_once('../layout/header.php');
     </div>
     <div class="row mt-5">
         <div class="col-12">
-            <p>Sieger hier (inklusive export)</p>
+            <h2>Sieger</h2>
+            <table id="winners" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th class="no-sort">Serie</th>
+                    <th class="no-sort">Preis</th>
+                    <th class="no-sort">Sponsor</th>
+                    <th class="no-sort">Sieger</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                if ($cardResult->num_rows > 0) {
+                    // Output data of each row
+                    while($row = $winnersResult->fetch_assoc()) {
+
+                        $winnerString = "";
+                        if ($row["winner_name"] != null) {
+                            $winnerString .= $row["winner_name"];
+                        }
+                        if ($row["winner_birthyear"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= ", ";
+                            }
+                            $winnerString .= $row["winner_birthyear"];
+                        }
+                        if ($row["winner_location"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= ", ";
+                            }
+                            $winnerString .= $row["winner_location"];
+                        }
+                        if ($row["winner_seller"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Verkäufer: " . $row["winner_seller"];
+                        }
+                        if ($row["winner_card_number"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Kartennummer: " . $row["winner_card_number"];
+                        }
+                        if ($row["winner_number_1"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Zahl 1: " . $row["winner_number_1"];
+                        }
+                        if ($row["winner_number_2"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Zahl 2: " . $row["winner_number_2"];
+                        }
+
+                        echo "
+                            <tr>
+                                <td>" . htmlspecialchars($row["Seriesname"]) . " " . htmlspecialchars($row["firstname"]) . "</td>
+                                <td>" . htmlspecialchars($row["Pricename"]) . "</td>
+                                <td>" . htmlspecialchars($row["sponsor"]) . "</td>
+                                <td>" . $winnerString . "</td>
+                            </tr>";
+                    }
+                }
+                ?>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Serie</th>
+                    <th>Preis</th>
+                    <th>Sponsor</th>
+                    <th>Sieger</th>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
+
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2>Trivia</h2>
+            <div class="row">
+                <div class="col-12 col-md-4 mt-4">
+                    <h3>Anzahl Karten:</h3>
+                    <?=$trivia['count']?>
+                </div>
+                <div class="col-12 col-md-4 mt-4">
+                    <h3>Höchste Nummer (Zahl|Karte):</h3>
+                    <?php
+                        if ($trivia['max1'] > $trivia['max2']) {
+                            $max = $trivia['max1'];
+                        } else {
+                            $max = $trivia['max2'];
+                        }
+                    ?>
+                    <?= $max . " | " . $trivia['max'] ?>
+                </div>
+                <div class="col-12 col-md-4 mt-4">
+                    <h3>Tiefste Nummer (Zahl|Karte):</h3>
+                    <?php
+                        if ($trivia['min1'] < $trivia['min2']) {
+                            $min = $trivia['min1'];
+                        } else {
+                            $min = $trivia['min2'];
+                        }
+                    ?>
+                    <?= $min . " | " . $trivia['min'] ?>
+                </div>
+                <div class="col-12 mt-4">
+                    <h3>Am häufigsten gezogene Zahlen:</h3>
+                    <?php
+                    if ($numbersResult->num_rows > 0) {
+                        // Output data of each row
+                        while($row = $numbersResult->fetch_assoc()) {
+                            echo $row['number'] . " (" . $row['count'] . "x)<br>";
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 </div>
 
 <script>
@@ -176,7 +321,7 @@ include_once('../layout/header.php');
             }]
         });
         $('#cards').DataTable({
-            paging: false,
+            paging: true,
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/de-DE.json',
             },
@@ -188,6 +333,30 @@ include_once('../layout/header.php');
                             className: 'btn btn-success',
                             action: function (e, dt, node, config) {
                                 window.location.href = '/card/add.php?lotto_id=<?=$id?>';
+                            }
+                        },
+                    ]
+                }
+            },
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+            }]
+        });
+        $('#winners').DataTable({
+            paging: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/de-DE.json',
+            },
+            layout: {
+                topStart: {},
+                topEnd: {
+                    buttons: [
+                        {
+                            text: '<i class="fa fa-file-export"></i> Exportieren',
+                            className: 'btn btn-primary',
+                            action: function (e, dt, node, config) {
+                                window.location.href = '/lotto/export_winners.php?lotto_id=<?=$id?>';
                             }
                         },
                     ]

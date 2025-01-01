@@ -61,7 +61,25 @@ include_once('../layout/header.php');
             <input type="text" class="form-control" id="sponsor" placeholder="Sponsor" name="sponsor" value='<?=$priceRow['sponsor']?>' required>
         </div>
         <div class="mb-3 mt-3">
-            <input type="text" class="form-control" id="winner" placeholder="Sieger" name="winner" value='<?=$priceRow['winner']?>'>
+            <input type="text" class="form-control" id="winner_name" placeholder="Sieger Name" name="winner_name" value='<?=$priceRow['winner_name']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_birthyear" placeholder="Sieger Geburtsjahr" name="winner_birthyear" value='<?=$priceRow['winner_birthyear']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_location" placeholder="Sieger Wohnort" name="winner_location" value='<?=$priceRow['winner_location']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_seller" placeholder="Sieger Verkäufer" name="winner_seller" value='<?=$priceRow['winner_seller']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_card_number" placeholder="Sieger Kartennummer" name="winner_card_number" value='<?=$priceRow['winner_card_number']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_number_1" placeholder="Sieger Zahl 1" name="winner_number_1" value='<?=$priceRow['winner_number_1']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_number_2" placeholder="Sieger Zahl 2" name="winner_number_2" value='<?=$priceRow['winner_number_2']?>'>
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_number" placeholder="Siegerzahl" name="winner_number" value='<?=$priceRow['winner_number']?>'>

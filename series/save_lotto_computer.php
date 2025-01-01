@@ -33,7 +33,7 @@ if ($lottoResult->num_rows < 1) {
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $winnerCard = $_GET['card_id'];
 
-    $sql = "SELECT * FROM Price where series_id = ".$seriesRow["ID"]." and winner IS NULL ORDER BY sequence ASC";
+    $sql = "SELECT * FROM Price where series_id = ".$seriesRow["ID"]." and winner_name IS NULL ORDER BY sequence ASC";
     $pricesToWinResult = $conn->query($sql);
 
     $sql = "SELECT * FROM Number where series_id = ".$seriesRow["ID"]." ORDER BY ID DESC LIMIT 1";
@@ -55,39 +55,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         die('Please fill in both fields.');
     }
 
-    $winnerString = "";
     $sql = "SELECT * FROM Card where ID = ".$winnerCard;
     $winnerCardResult = $conn->query($sql);
     if ($winnerCardResult->num_rows > 0) {
         $winnerCardRow = $winnerCardResult->fetch_assoc();
-        $winnerString .= $winnerCardRow['name'] . " " . $winnerCardRow['firstname'];
-        $winnerString .= ", " . $winnerCardRow['birthyear'];
-        $winnerString .= ", " . $winnerCardRow['location'];
-        $winnerString .= ", Verkäufer: " . $winnerCardRow['seller'];
-        $winnerString .= ", Kartennummer: " . $winnerCardRow['card_nr'];
-        $winnerString .= ", Zahlen: " . $winnerCardRow['number_1'] . " und " . $winnerCardRow['number_2'];
-    }
+        $winner_name = $winnerCardRow['name'] . " " . $winnerCardRow['firstname'];
+        $winner_birthyear = $winnerCardRow['birthyear'];
+        $winner_location = $winnerCardRow['location'];
+        $winner_seller = $winnerCardRow['seller'];
+        $winner_card_number = $winnerCardRow['card_nr'];
+        $winner_number_1 = $winnerCardRow['number_1'];
+        $winner_number_2 = $winnerCardRow['number_2'];
 
-    // Prepare and execute query
-    $stmt = $conn->prepare('Update Price set winner = ?, winner_number = ? where ID = ?');
-    if ($stmt === false) {
-        die('Prepare failed: ' . htmlspecialchars($conn->error));
-    }
+        // Prepare and execute query
+        $stmt = $conn->prepare('Update Price set winner_name = ?, winner_birthyear = ?, winner_location = ?, winner_seller = ?, winner_card_number = ?, winner_number_1 = ?, winner_number_2 = ?, winner_number = ? where ID = ?');
+        if ($stmt === false) {
+            die('Prepare failed: ' . htmlspecialchars($conn->error));
+        }
 
-    $bind = $stmt->bind_param('sii', $winnerString, $lastDrawnNumber, $priceId);
-    if ($bind === false) {
-        die('Bind param failed: ' . htmlspecialchars($stmt->error));
-    }
+        $bind = $stmt->bind_param('sissiiiii', $winner_name, $winner_birthyear, $winner_location, $winner_seller, $winner_card_number, $winner_number_1, $winner_number_2, $lastDrawnNumber, $priceId);
+        if ($bind === false) {
+            die('Bind param failed: ' . htmlspecialchars($stmt->error));
+        }
 
-    $exec = $stmt->execute();
-    if ($exec === false) {
-        die('Execute failed: ' . htmlspecialchars($stmt->error));
-    } else {
-        $_SESSION['potential_winner_card_id'] = "";
-        header('Location: /series/play.php?id=' . $seriesId);
-    }
+        $exec = $stmt->execute();
+        if ($exec === false) {
+            die('Execute failed: ' . htmlspecialchars($stmt->error));
+        } else {
+            $_SESSION['potential_winner_card_id'] = "";
+            header('Location: /series/play.php?id=' . $seriesId);
+        }
 
-    $stmt->close();
+        $stmt->close();
+    }
 } else {
     echo 'Invalid request method.';
 }

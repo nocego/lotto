@@ -31,7 +31,7 @@ if ($lottoResult->num_rows < 1) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $sql = "SELECT * FROM Price where series_id = ".$seriesRow["ID"]." and winner IS NULL ORDER BY sequence ASC";
+    $sql = "SELECT * FROM Price where series_id = ".$seriesRow["ID"]." and winner_name IS NULL ORDER BY sequence ASC";
     $pricesToWinResult = $conn->query($sql);
 
     $nextPriceToWinRow = $pricesToWinResult->fetch_assoc();
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $lastDrawnNumber = $lastDrawnNumberRow['number'];
 
     // Prepare and execute query
-    $stmt = $conn->prepare('Update Price set winner = ?, winner_number = ? where ID = ?');
+    $stmt = $conn->prepare('Update Price set winner_name = ?, winner_number = ? where ID = ?');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
