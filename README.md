@@ -41,7 +41,7 @@ Todo:
 - [x] Show winners
   - [x] export winners to csv
 - [x] Show infos to drawn numbers
-- [ ] Create Series (including prices) export to CSV
-- [ ] Create Series (including prices) import from CSV
+- [x] Create Series (including prices) export to Excel
+- [x] Create Series (including prices) import from Excel
 - [ ] Create Card export to CSV
 - [ ] Create Card import from CSV
