@@ -43,5 +43,5 @@ Todo:
 - [x] Show infos to drawn numbers
 - [x] Create Series (including prices) export to Excel
 - [x] Create Series (including prices) import from Excel
-- [ ] Create Card export to CSV
-- [ ] Create Card import from CSV
+- [x] Create Card export to Excel
+- [x] Create Card import from Excel

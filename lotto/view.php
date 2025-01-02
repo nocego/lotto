@@ -315,6 +315,29 @@ include_once('../layout/header.php');
     </div>
 </div>
 
+<div class="modal fade" id="importCardsModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/lotto/import_cards.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="lotto_id" value="<?=$id?>">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Karten importieren</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">Achtung: Falls bereits Karten existieren, könnte es beim Import zu duplikaten kommen.</p>
+                    <div class="mb-3">
+                        <input type="file" class="form-control" id="file" name="file_to_import" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" id="submit-btn">Karten importieren</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         $('#series').DataTable({
@@ -367,6 +390,20 @@ include_once('../layout/header.php');
                             className: 'btn btn-success',
                             action: function (e, dt, node, config) {
                                 window.location.href = '/card/add.php?lotto_id=<?=$id?>';
+                            }
+                        },
+                        {
+                            text: '<i class="fa fa-file-export"></i> Exportieren',
+                            className: 'btn btn-primary',
+                            action: function (e, dt, node, config) {
+                                window.location.href = '/lotto/export_cards.php?lotto_id=<?=$id?>';
+                            }
+                        },
+                        {
+                            text: '<i class="fa fa-file-export"></i> Importieren',
+                            className: 'btn btn-danger',
+                            action: function (e, dt, node, config) {
+                                $('#importCardsModal').modal('show');
                             }
                         },
                     ]

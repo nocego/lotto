@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         } catch (Exception $e) {
                             // Rollback transaction
                             $conn->rollback();
-                            die($e->getMessage());
+                            die($e->getMessage() . "Es wurde nichts importiert.");
                         }
                     }
 
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     } catch (Exception $e) {
                         // Rollback transaction
                         $conn->rollback();
-                        die($e->getMessage());
+                        die($e->getMessage() . "Es wurde nichts importiert.");
                     }
                 }
             }
