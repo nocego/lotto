@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $fileName = "winners.xlsx";
 
     $data = [
-        ['<b>Serie</b>', '<b>Preis</b>', '<b>Sponsor</b>', '<b>Sieger Name</b>', '<b>Sieger Geburtsjahr</b>', '<b>Sieger Wohnort</b>', '<b>Sieger Verkäufer</b>', '<b>Sieger Kartennummer</b>', '<b>Sieger Zahl 1</b>', '<b>Sieger Zahl 2</b>']
+        ['<b>Serie</b>', '<b>Preis</b>', '<b>Sponsor</b>', '<b>Sieger Name</b>', '<b>Sieger Geburtsjahr</b>', '<b>Sieger Wohnort</b>', '<b>Sieger Firma</b>','<b>Sieger Verkäufer</b>', '<b>Sieger Kartennummer</b>', '<b>Sieger Zahl 1</b>', '<b>Sieger Zahl 2</b>']
     ];
 
     $sql = "SELECT ID FROM Series where lotto_id = ".$lottoId;
@@ -40,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     $idsString = implode(',', $seriesIds);
 
-    $sql = "SELECT Series.name as `Seriesname`, Price.name as `Pricename`, Price.sponsor, Price.winner_name, Price.winner_birthyear, Price.winner_location, Price.winner_seller, Price.winner_card_number, Price.winner_number_1, Price.winner_number_2  FROM Price INNER JOIN Series on Series.ID = Price.series_id where series_id in (".$idsString.") and winner_name is not null ORDER BY series_id ASC, sequence ASC";
+    $sql = "SELECT Series.name as `Seriesname`, Price.name as `Pricename`, Price.sponsor, Price.winner_name, Price.winner_birthyear, Price.winner_location, Price.winner_company, Price.winner_seller, Price.winner_card_number, Price.winner_number_1, Price.winner_number_2  FROM Price INNER JOIN Series on Series.ID = Price.series_id where series_id in (".$idsString.") and winner_name is not null ORDER BY series_id ASC, sequence ASC";
     $winnersResult = $conn->query($sql);
     if ($winnersResult->num_rows > 0) {
         while($row = $winnersResult->fetch_assoc()) {
-            $data[] = [$row['Seriesname'], $row['Pricename'], $row['sponsor'], $row['winner_name'], $row['winner_birthyear'], $row['winner_location'], $row['winner_seller'], $row['winner_card_number'], $row['winner_number_1'], $row['winner_number_2']];
+            $data[] = [$row['Seriesname'], $row['Pricename'], $row['sponsor'], $row['winner_name'], $row['winner_birthyear'], $row['winner_location'], $row['winner_company'], $row['winner_seller'], $row['winner_card_number'], $row['winner_number_1'], $row['winner_number_2']];
         }
     }
     \Shuchkin\SimpleXLSXGen::fromArray($data)->saveAs($fileName);

@@ -80,6 +80,12 @@ include_once('../layout/header.php');
                             }
                             $winnerString .= $row["winner_location"];
                         }
+                        if ($row["winner_company"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Firma: " . $row["winner_company"];
+                        }
                         if ($row["winner_seller"] != null) {
                             if ($winnerString != "") {
                                 $winnerString .= "<br>";

@@ -42,10 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $row[5] == "Sieger Name" &&
                         $row[6] == "Sieger Geburtsjahr" &&
                         $row[7] == "Sieger Wohnort" &&
-                        $row[8] == "Sieger Verkäufer" &&
-                        $row[9] == "Sieger Kartennummer" &&
-                        $row[10] == "Sieger Zahl 1" &&
-                        $row[11] == "Sieger Zahl 2") {
+                        $row[8] == "Sieger Firma" &&
+                        $row[9] == "Sieger Verkäufer" &&
+                        $row[10] == "Sieger Kartennummer" &&
+                        $row[11] == "Sieger Zahl 1" &&
+                        $row[12] == "Sieger Zahl 2") {
                         continue;
                     } else {
                         echo "Invalid file format. Nothing was imported.";
@@ -57,6 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $priceSequence = $row[2];
                     $priceName = $row[3];
                     $priceSponsor = $row[4];
+                    if ($priceSponsor == "") {
+                        $priceSponsor = null;
+                    }
                     $winnerName = $row[5];
                     if ($winnerName == "") {
                         $winnerName = null;
@@ -69,19 +73,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if ($winnerLocation == "") {
                         $winnerLocation = null;
                     }
-                    $winnerSeller = $row[8];
+                    $winnerCompany = $row[8];
+                    if ($winnerCompany == "") {
+                        $winnerCompany = null;
+                    }
+                    $winnerSeller = $row[9];
                     if ($winnerSeller == "") {
                         $winnerSeller = null;
                     }
-                    $winnerCardNumber = $row[9];
+                    $winnerCardNumber = $row[10];
                     if ($winnerCardNumber == "") {
                         $winnerCardNumber = null;
                     }
-                    $winnerNumber1 = $row[10];
+                    $winnerNumber1 = $row[11];
                     if ($winnerNumber1 == "") {
                         $winnerNumber1 = null;
                     }
-                    $winnerNumber2 = $row[11];
+                    $winnerNumber2 = $row[12];
                     if ($winnerNumber2 == "") {
                         $winnerNumber2 = null;
                     }
@@ -121,12 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     try {
                         // Prepare and execute query
-                        $stmt = $conn->prepare('INSERT INTO Price (series_id, sequence, sponsor, name, winner_name, winner_birthyear, winner_location, winner_seller, winner_card_number, winner_number_1, winner_number_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+                        $stmt = $conn->prepare('INSERT INTO Price (series_id, sequence, sponsor, name, winner_name, winner_birthyear, winner_location, winner_seller, winner_card_number, winner_number_1, winner_number_2, winner_company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
                         if ($stmt === false) {
                             die('Prepare failed: ' . htmlspecialchars($conn->error));
                         }
 
-                        $bind = $stmt->bind_param('iisssissiii', $seriesId, $priceSequence, $priceSponsor, $priceName, $winnerName, $winnerBirthYear, $winnerLocation, $winnerSeller, $winnerCardNumber, $winnerNumber1, $winnerNumber2);
+                        $bind = $stmt->bind_param('iisssissiiis', $seriesId, $priceSequence, $priceSponsor, $priceName, $winnerName, $winnerBirthYear, $winnerLocation, $winnerSeller, $winnerCardNumber, $winnerNumber1, $winnerNumber2, $winnerCompany);
                         if ($bind === false) {
                             die('Bind param failed: ' . htmlspecialchars($stmt->error));
                         }

@@ -53,6 +53,8 @@ include_once('../layout/header.php');
                     <select class="form-control" id="mode" name="mode" required>
                         <option value="1" <?php if($mode == 1){?>selected<?php }?>>Lottozahlen (gezogene Zahlen)</option>
                         <option value="2" <?php if($mode == 2){?>selected<?php }?>>Kartenzahlen (auf der verkauften Karte)</option>
+                        <option value="3" <?php if($mode == 3){?>selected<?php }?>>Lottozahlen Saal (gezogene Zahlen, nur Lotto Saal)</option>
+                        <option value="4" <?php if($mode == 4){?>selected<?php }?>>Kartenzahlen Saal (auf der verkauften Karte, nur Lotto Saal)</option>
                     </select>
                 </div>
             </div>

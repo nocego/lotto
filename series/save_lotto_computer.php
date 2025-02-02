@@ -62,18 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $winner_name = $winnerCardRow['name'] . " " . $winnerCardRow['firstname'];
         $winner_birthyear = $winnerCardRow['birthyear'];
         $winner_location = $winnerCardRow['location'];
+        $winner_company = $winnerCardRow['company'];
         $winner_seller = $winnerCardRow['seller'];
         $winner_card_number = $winnerCardRow['card_nr'];
         $winner_number_1 = $winnerCardRow['number_1'];
         $winner_number_2 = $winnerCardRow['number_2'];
 
         // Prepare and execute query
-        $stmt = $conn->prepare('Update Price set winner_name = ?, winner_birthyear = ?, winner_location = ?, winner_seller = ?, winner_card_number = ?, winner_number_1 = ?, winner_number_2 = ?, winner_number = ? where ID = ?');
+        $stmt = $conn->prepare('Update Price set winner_name = ?, winner_birthyear = ?, winner_location = ?, winner_seller = ?, winner_card_number = ?, winner_number_1 = ?, winner_number_2 = ?, winner_number = ?, winner_company = ? where ID = ?');
         if ($stmt === false) {
             die('Prepare failed: ' . htmlspecialchars($conn->error));
         }
 
-        $bind = $stmt->bind_param('sissiiiii', $winner_name, $winner_birthyear, $winner_location, $winner_seller, $winner_card_number, $winner_number_1, $winner_number_2, $lastDrawnNumber, $priceId);
+        $bind = $stmt->bind_param('sissiiiisi', $winner_name, $winner_birthyear, $winner_location, $winner_seller, $winner_card_number, $winner_number_1, $winner_number_2, $lastDrawnNumber, $winner_company, $priceId);
         if ($bind === false) {
             die('Bind param failed: ' . htmlspecialchars($stmt->error));
         }

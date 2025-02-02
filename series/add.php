@@ -41,6 +41,8 @@ include_once('../layout/header.php');
                     <select class="form-control" id="mode" name="mode" required>
                         <option value="1">Lottozahlen (gezogene Zahlen)</option>
                         <option value="2">Kartenzahlen (auf der verkauften Karte)</option>
+                        <option value="3">Lottozahlen Saal (gezogene Zahlen, nur Lotto Saal)</option>
+                        <option value="4">Kartenzahlen Saal (auf der verkauften Karte, nur Lotto Saal)</option>
                     </select>
                 </div>
             </div>

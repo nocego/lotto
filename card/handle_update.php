@@ -28,13 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $firstname = $_POST['firstname'];
     $birthyear = $_POST['birthyear'];
     $location = $_POST['location'];
+    $company = $_POST['company'];
     $seller = $_POST['seller'];
     $cardNr = $_POST['card_nr'];
     $number1 = $_POST['number_1'];
     $number2 = $_POST['number_2'];
 
     // Validate input
-    if (empty($lottoId) || empty($name) || empty($firstname) || empty($birthyear) || empty($location) || empty($cardNr) || empty($number1) || empty($number2)) {
+    if (empty($lottoId) || empty($name) || empty($firstname) || empty($location) || empty($cardNr) || empty($number1) || empty($number2)) {
         die('Please fill in both fields.');
     }
 
@@ -42,13 +43,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $seller = null;
     }
 
+    if (empty($birthyear)) {
+        $birthyear = null;
+    }
+
+    if (empty($company)) {
+        $company = null;
+    }
+
     // Prepare and execute query
-    $stmt = $conn->prepare('UPDATE Card SET lotto_id = ?, card_nr = ?, name = ?, firstname = ?, birthyear = ?, location = ?, seller = ?, number_1 = ?, number_2 = ? WHERE ID = ?');
+    $stmt = $conn->prepare('UPDATE Card SET lotto_id = ?, card_nr = ?, name = ?, firstname = ?, birthyear = ?, location = ?, seller = ?, number_1 = ?, number_2 = ?, company = ? WHERE ID = ?');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
 
-    $bind = $stmt->bind_param('iississiii', $lottoId, $cardNr, $name, $firstname, $birthyear, $location, $seller, $number1, $number2, $id);
+    $bind = $stmt->bind_param('iississiisi', $lottoId, $cardNr, $name, $firstname, $birthyear, $location, $seller, $number1, $number2, $company, $id);
     if ($bind === false) {
         die('Bind param failed: ' . htmlspecialchars($stmt->error));
     }

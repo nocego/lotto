@@ -54,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $winnerNumber = null;
     }
 
+    if (empty($sponsor)) {
+        $sponsor = null;
+    }
     $winner_name = $_POST['winner_name'];
     if (empty($winner_name)) {
         $winner_name = null;
@@ -65,6 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $winner_location = $_POST['winner_location'];
     if (empty($winner_location)) {
         $winner_location = null;
+    }
+    $winner_company = $_POST['winner_company'];
+    if (empty($winner_company)) {
+        $winner_company = null;
     }
     $winner_seller = $_POST['winner_seller'];
     if (empty($winner_seller)) {
@@ -84,17 +91,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Validate input
-    if (empty($name) || empty($sponsor) || empty($id)) {
+    if (empty($name) || empty($id)) {
         die('Please fill in both fields.');
     }
 
     // Prepare and execute query
-    $stmt = $conn->prepare('UPDATE Price SET name = ?, sponsor = ?, sequence = ?, winner_number = ?, winner_name = ?, winner_birthyear = ?, winner_location = ?, winner_seller = ?, winner_card_number = ?, winner_number_1 = ?, winner_number_2 = ? WHERE ID = ?');
+    $stmt = $conn->prepare('UPDATE Price SET name = ?, sponsor = ?, sequence = ?, winner_number = ?, winner_name = ?, winner_birthyear = ?, winner_location = ?, winner_seller = ?, winner_card_number = ?, winner_number_1 = ?, winner_number_2 = ?, winner_company = ? WHERE ID = ?');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
 
-    $bind = $stmt->bind_param('ssiisissiiii', $name, $sponsor, $sequence, $winnerNumber, $winner_name, $winner_birthyear, $winner_location, $winner_seller, $winner_card_number, $winner_number_1, $winner_number_2, $id);
+    $bind = $stmt->bind_param('ssiisissiiisi', $name, $sponsor, $sequence, $winnerNumber, $winner_name, $winner_birthyear, $winner_location, $winner_seller, $winner_card_number, $winner_number_1, $winner_number_2, $winner_company, $id);
     if ($bind === false) {
         die('Bind param failed: ' . htmlspecialchars($stmt->error));
     }

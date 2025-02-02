@@ -17,13 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $firstname = $_POST['firstname'];
     $birthyear = $_POST['birthyear'];
     $location = $_POST['location'];
+    $company = $_POST['company'];
     $seller = $_POST['seller'];
     $cardNr = $_POST['card_nr'];
     $number1 = $_POST['number_1'];
     $number2 = $_POST['number_2'];
 
     // Validate input
-    if (empty($lottoId) || empty($name) || empty($firstname) || empty($birthyear) || empty($location) || empty($cardNr) || empty($number1) || empty($number2)) {
+    if (empty($lottoId) || empty($name) || empty($firstname) || empty($location) || empty($cardNr) || empty($number1) || empty($number2)) {
         die('Please fill in both fields.');
     }
 
@@ -31,13 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $seller = null;
     }
 
+    if (empty($birthyear)) {
+        $birthyear = null;
+    }
+
+    if (empty($company)) {
+        $company = null;
+    }
+
     // Prepare and execute query
-    $stmt = $conn->prepare('INSERT INTO Card (lotto_id, card_nr, name, firstname, birthyear, location, seller, number_1, number_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt = $conn->prepare('INSERT INTO Card (lotto_id, card_nr, name, firstname, birthyear, location, seller, number_1, number_2, company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
 
-    $bind = $stmt->bind_param('iississii', $lottoId, $cardNr, $name, $firstname, $birthyear, $location, $seller, $number1, $number2);
+    $bind = $stmt->bind_param('iississiis', $lottoId, $cardNr, $name, $firstname, $birthyear, $location, $seller, $number1, $number2, $company);
     if ($bind === false) {
         die('Bind param failed: ' . htmlspecialchars($stmt->error));
     }
@@ -46,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($exec === false) {
         die('Execute failed: ' . htmlspecialchars($stmt->error));
     } else {
-        header('Location: /lotto/view.php?id=' . $lottoId);
+        header('Location: /card/add.php?lotto_id=' . $lottoId);
     }
 
     $stmt->close();

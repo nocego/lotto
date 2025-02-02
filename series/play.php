@@ -143,6 +143,12 @@ include_once('../layout/header.php');
                             }
                             $winnerString .= $row["winner_location"];
                         }
+                        if ($row["winner_company"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Firma: " . $row["winner_company"];
+                        }
                         if ($row["winner_seller"] != null) {
                             if ($winnerString != "") {
                                 $winnerString .= "<br>";
@@ -235,6 +241,10 @@ include_once('../layout/header.php');
                     <tr>
                         <td>Wohnort</td>
                         <td><?= $winnerCardRow['location'] ?></td>
+                    </tr>
+                    <tr>
+                        <td>Firma</td>
+                        <td><?= $winnerCardRow['company'] ?></td>
                     </tr>
                     <tr>
                         <td>Verkäufer</td>

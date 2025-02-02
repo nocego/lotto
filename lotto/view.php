@@ -43,7 +43,7 @@ if ($seriesOfThisLottoResult->num_rows > 0) {
 }
 $idsString = implode(',', $seriesIds);
 
-$sql = "SELECT Series.name as `Seriesname`, Price.name as `Pricename`, Price.sponsor, Price.winner_name, Price.winner_birthyear, Price.winner_location, Price.winner_seller, Price.winner_card_number, Price.winner_number_1, Price.winner_number_2  FROM Price INNER JOIN Series on Series.ID = Price.series_id where series_id in (".$idsString.") and winner_name is not null ORDER BY series_id ASC, sequence ASC";
+$sql = "SELECT Series.name as `Seriesname`, Price.name as `Pricename`, Price.sponsor, Price.winner_name, Price.winner_birthyear, Price.winner_location, Price.winner_company, Price.winner_seller, Price.winner_card_number, Price.winner_number_1, Price.winner_number_2  FROM Price INNER JOIN Series on Series.ID = Price.series_id where series_id in (".$idsString.") and winner_name is not null ORDER BY series_id ASC, sequence ASC";
 $winnersResult = $conn->query($sql);
 
 $sql = "SELECT COUNT(*) as `count`, MAX(card_nr) as `max`, MIN(card_nr) as `min`, MAX(number_1) as `max1`, MIN(number_1) as `min1`, MAX(number_2) as `max2`, MIN(number_2) as `min2` FROM Card where lotto_id = ".$id;
@@ -81,8 +81,14 @@ include_once('../layout/header.php');
                         $date = new DateTime($row["date"]);
                         if ($row["mode"] == 1) {
                             $mode = "Lottozahlen (gezogene Zahlen)";
-                        } else {
+                        } else if ($row["mode"] == 2) {
                             $mode = "Kartenzahlen (auf der verkauften Karte)";
+                        } else if ($row["mode"] == 3) {
+                            $mode = "Lottozahlen Saal (gezogene Zahlen, nur Lotto Saal)";
+                        } else if ($row["mode"] == 4) {
+                            $mode = "Kartenzahlen Saal (auf der verkauften Karte, nur Lotto Saal)";
+                        } else {
+                            $mode = "Undefiniert";
                         }
                         echo "
                             <tr>
@@ -118,6 +124,7 @@ include_once('../layout/header.php');
                     <th>Name & Vorname</th>
                     <th>Jahrgang</th>
                     <th>Wohnort</th>
+                    <th>Firma</th>
                     <th>Verkäufer</th>
                     <th>Kartennummer</th>
                     <th>Zahl 1</th>
@@ -135,6 +142,7 @@ include_once('../layout/header.php');
                                 <td>" . htmlspecialchars($row["name"]) . " " . htmlspecialchars($row["firstname"]) . "</td>
                                 <td>" . htmlspecialchars($row["birthyear"]) . "</td>
                                 <td>" . htmlspecialchars($row["location"]) . "</td>
+                                <td>" . htmlspecialchars($row["company"]) . "</td>
                                 <td>" . htmlspecialchars($row["seller"]) . "</td>
                                 <td>" . htmlspecialchars($row["card_nr"]) . "</td>
                                 <td>" . htmlspecialchars($row["number_1"]) . "</td>
@@ -153,6 +161,7 @@ include_once('../layout/header.php');
                         <th>Name & Vorname</th>
                         <th>Jahrgang</th>
                         <th>Wohnort</th>
+                        <th>Firma</th>
                         <th>Verkäufer</th>
                         <th>Kartennummer</th>
                         <th>Zahl 1</th>
@@ -196,6 +205,12 @@ include_once('../layout/header.php');
                                 $winnerString .= ", ";
                             }
                             $winnerString .= $row["winner_location"];
+                        }
+                        if ($row["winner_company"] != null) {
+                            if ($winnerString != "") {
+                                $winnerString .= "<br>";
+                            }
+                            $winnerString .= "Firma: " . $row["winner_company"];
                         }
                         if ($row["winner_seller"] != null) {
                             if ($winnerString != "") {
@@ -438,6 +453,23 @@ include_once('../layout/header.php');
                 "orderable": false,
             }]
         });
+
+        // check if there is a get parameter not_all_cards_imported and if it is true
+        const urlParams = new URLSearchParams(window.location.search);
+        const not_all_cards_imported = urlParams.get('not_all_cards_imported');
+        if (not_all_cards_imported === 'true') {
+            function downloadFile(fileName) {
+                const link = document.createElement('a');
+                link.href = fileName;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            downloadFile('/lotto/not_imported_cards.xlsx');
+            alert('Nicht alle Karten konnten importiert werden, da es Duplikate bei den Kartennummern, Zahlen 1 oder Zahlen 2 gab. Die Datei mit den nicht importierten Karten wurde heruntergeladen.');
+        }
     });
 
     function confirmDelete(id) {

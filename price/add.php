@@ -55,7 +55,7 @@ include_once('../layout/header.php');
             <input type="text" class="form-control" id="name" placeholder="Preis" name="name" required>
         </div>
         <div class="mb-3 mt-3">
-            <input type="text" class="form-control" id="sponsor" placeholder="Sponsor" name="sponsor" required>
+            <input type="text" class="form-control" id="sponsor" placeholder="Sponsor" name="sponsor">
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_name" placeholder="Sieger Name" name="winner_name">
@@ -65,6 +65,9 @@ include_once('../layout/header.php');
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_location" placeholder="Sieger Wohnort" name="winner_location">
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_company" placeholder="Sieger Firma" name="winner_company">
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_seller" placeholder="Sieger Verkäufer" name="winner_seller">

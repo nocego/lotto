@@ -56,8 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // check if a player has this number
         if ($seriesRow["mode"] == 1) {
             $sql = "SELECT ID FROM Card where lotto_id = ".$lottoId." and number_1 = ".$drawnNumber." or lotto_id = ".$lottoId." and number_2 = ".$drawnNumber;
-        } else {
+        } else if ($seriesRow["mode"] == 2) {
             $sql = "SELECT ID FROM Card where lotto_id = ".$lottoId." and card_nr = ".$drawnNumber;
+        } else {
+            header('Location: /series/play.php?id=' . $seriesId);
         }
         $winnerResult = $conn->query($sql);
         if ($winnerResult->num_rows > 0) {

@@ -45,3 +45,41 @@ Todo:
 - [x] Create Series (including prices) import from Excel
 - [x] Create Card export to Excel
 - [x] Create Card import from Excel
+
+Preissponsor optional
+- [x] create - ok
+- [x] update
+- [x] import
+
+Geburtsjahr optional bei Karten
+- [x] create
+- [x] update
+- [x] import
+
+Bei neue Karte erstellen überprüfen ob die Kartennummer, Zahl1 oder Zahl2 bereits existiert -> dann meldung bringen
+- [x] create
+- [x] update
+
+Bei Kartenimport excel rausschmeissen mit duplikaten welche nicht importiert wurden
+- [x] import
+
+Weiterer Modus nur Lotto Saal
+- [x] create
+- [x] view
+- [x] update
+- [x] export
+- [x] import
+- [x] beim spielen
+
+- [x] Wenn neue Karte erstellt wird -> erstellen und neue Karte
+- [x] Firmenname bei Karte hinzufügen als Optional
+  - [x] DB
+  - [x] Create
+  - [x] Update
+  - [x] Export
+  - [x] Import
+  - [x] Export not imported
+  - [x] In der Übersicht
+  - [x] Beim Sieg
+  - [x] Beim Export der Sieger
+- [x] Neuer DB-Export

@@ -58,7 +58,7 @@ include_once('../layout/header.php');
             <input type="text" class="form-control" id="name" placeholder="Preis" name="name" value='<?=$priceRow['name']?>' required>
         </div>
         <div class="mb-3 mt-3">
-            <input type="text" class="form-control" id="sponsor" placeholder="Sponsor" name="sponsor" value='<?=$priceRow['sponsor']?>' required>
+            <input type="text" class="form-control" id="sponsor" placeholder="Sponsor" name="sponsor" value='<?=$priceRow['sponsor']?>'>
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_name" placeholder="Sieger Name" name="winner_name" value='<?=$priceRow['winner_name']?>'>
@@ -68,6 +68,9 @@ include_once('../layout/header.php');
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_location" placeholder="Sieger Wohnort" name="winner_location" value='<?=$priceRow['winner_location']?>'>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="winner_company" placeholder="Sieger Firma" name="winner_company" value='<?=$priceRow['winner_company']?>'>
         </div>
         <div class="mb-3 mt-3">
             <input type="text" class="form-control" id="winner_seller" placeholder="Sieger Verkäufer" name="winner_seller" value='<?=$priceRow['winner_seller']?>'>

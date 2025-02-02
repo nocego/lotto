@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 02. Jan 2025 um 16:43
--- Server-Version: 8.0.40-0ubuntu0.20.04.1
+-- Erstellungszeit: 02. Feb 2025 um 18:59
+-- Server-Version: 8.0.41-0ubuntu0.20.04.1
 -- PHP-Version: 8.2.27
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -20,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `ch280176_lotto_new`
 --
-CREATE DATABASE IF NOT EXISTS `ch280176_lotto_new` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci;
-USE `ch280176_lotto_new`;
 
 -- --------------------------------------------------------
 
@@ -35,8 +34,9 @@ CREATE TABLE `Card` (
   `card_nr` int NOT NULL,
   `name` varchar(200) NOT NULL,
   `firstname` varchar(200) NOT NULL,
-  `birthyear` int NOT NULL,
+  `birthyear` int DEFAULT NULL,
   `location` varchar(1000) NOT NULL,
+  `company` varchar(200) DEFAULT NULL,
   `seller` varchar(200) DEFAULT NULL,
   `number_1` int NOT NULL,
   `number_2` int NOT NULL
@@ -77,11 +77,12 @@ CREATE TABLE `Price` (
   `ID` int NOT NULL,
   `series_id` int NOT NULL,
   `sequence` int NOT NULL,
-  `sponsor` varchar(200) NOT NULL,
+  `sponsor` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `name` varchar(200) NOT NULL,
   `winner_name` varchar(1000) DEFAULT NULL,
   `winner_birthyear` int DEFAULT NULL,
   `winner_location` varchar(1000) DEFAULT NULL,
+  `winner_company` varchar(1000) DEFAULT NULL,
   `winner_seller` varchar(1000) DEFAULT NULL,
   `winner_card_number` int DEFAULT NULL,
   `winner_number_1` int DEFAULT NULL,
@@ -225,6 +226,7 @@ ALTER TABLE `Price`
 --
 ALTER TABLE `Series`
   ADD CONSTRAINT `lotto` FOREIGN KEY (`lotto_id`) REFERENCES `Lotto` (`ID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

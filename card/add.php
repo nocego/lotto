@@ -46,7 +46,7 @@ include_once('../layout/header.php');
             <h1>Neue Karte</h1>
         </div>
     </div>
-    <form action="/card/handle_add.php" method="post" class="">
+    <form id="cardForm" action="/card/handle_add.php" method="post" class="">
         <div class="row">
             <input type="hidden" name="lotto_id" value="<?=$id?>">
             <div class="mb-3 mt-3 col-12 col-md-5">
@@ -56,12 +56,15 @@ include_once('../layout/header.php');
                 <input type="text" class="form-control" id="firstname" placeholder="Vorname" name="firstname" required>
             </div>
             <div class="mb-3 mt-3 col-12 col-md-2">
-                <input type="number" class="form-control" id="birthyear" placeholder="Geb" name="birthyear" required>
+                <input type="number" class="form-control" id="birthyear" placeholder="Geb" name="birthyear">
             </div>
             <div class="mb-3 mt-3 col-12 col-md-6">
                 <input type="text" class="form-control" id="location" placeholder="Wohnort" name="location" required>
             </div>
             <div class="mb-3 mt-3 col-12 col-md-6">
+                <input type="text" class="form-control" id="company" placeholder="Firma" name="company">
+            </div>
+            <div class="mb-3 mt-3 col-12">
                 <input type="text" class="form-control" id="seller" placeholder="Verkäufer" name="seller">
             </div>
             <div class="mb-3 mt-3 col-12 col-md-4">
@@ -148,6 +151,41 @@ include_once('../layout/header.php');
             source: suggestion('seller'),
         }
     );
+
+    $(document).ready(function() {
+        $('#cardForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var cardNr = $('#card_nr').val();
+            var numberOne = $('#number_1').val();
+            var numberTwo = $('#number_2').val();
+            var lottoId = $('input[name="lotto_id"]').val();
+
+            $.ajax({
+                url: '/card/validate_card_numbers.php',
+                type: 'POST',
+                data: {
+                    card_id: null,
+                    card_nr: cardNr,
+                    number_1: numberOne,
+                    number_2: numberTwo,
+                    lotto_id: lottoId
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.valid) {
+                        // If valid, submit the form
+                        $('#cardForm')[0].submit();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while validating the card number.');
+                }
+            });
+        });
+    });
 </script>
 
 <?php

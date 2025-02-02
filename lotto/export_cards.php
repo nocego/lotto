@@ -26,14 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $fileName = "cards.xlsx";
 
     $data = [
-        ['<b>Kartennummer</b>', '<b>Name</b>', '<b>Vorname</b>', '<b>Jahrgang</b>', '<b>Wohnort</b>', '<b>Verkäufer</b>', '<b>Zahl 1</b>', '<b>Zahl 2</b>']
+        ['<b>Kartennummer</b>', '<b>Name</b>', '<b>Vorname</b>', '<b>Jahrgang</b>', '<b>Wohnort</b>', '<b>Firma</b>', '<b>Verkäufer</b>', '<b>Zahl 1</b>', '<b>Zahl 2</b>']
     ];
 
     $sql = "SELECT * FROM Card where lotto_id = ".$lottoId;
     $cardsOfThisLottoResult = $conn->query($sql);
     if ($cardsOfThisLottoResult->num_rows > 0) {
         while($row = $cardsOfThisLottoResult->fetch_assoc()) {
-            $data[] = [$row['card_nr'], $row['name'], $row['firstname'], $row['birthyear'], $row['location'], $row['seller'], $row['number_1'], $row['number_2']];
+            $data[] = [$row['card_nr'], $row['name'], $row['firstname'], $row['birthyear'], $row['location'], $row['company'], $row['seller'], $row['number_1'], $row['number_2']];
         }
     }
     \Shuchkin\SimpleXLSXGen::fromArray($data)->saveAs($fileName);
