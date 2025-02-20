@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
 
                     // check if number_1 already exists
-                    $sql = "SELECT COUNT(*) as count FROM Card WHERE number_1 = ? OR number_2 = ? AND lotto_id = ?";
+                    $sql = "SELECT COUNT(*) as count FROM Card WHERE (number_1 = ? OR number_2 = ?) AND lotto_id = ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param('iii', $number_1, $number_1, $lottoId);
                     $stmt->execute();
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
 
                     // check if number_2 already exists
-                    $sql = "SELECT COUNT(*) as count FROM Card WHERE number_1 = ? OR number_2 = ? AND lotto_id = ?";
+                    $sql = "SELECT COUNT(*) as count FROM Card WHERE (number_1 = ? OR number_2 = ?) AND lotto_id = ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param('iii', $number_2, $number_2, $lottoId);
                     $stmt->execute();

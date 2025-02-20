@@ -41,7 +41,7 @@ if ($cardId != null) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('iiii', $numberOne, $numberOne, $lottoId, $cardId);
 } else {
-    $sql = "SELECT COUNT(*) as count FROM Card WHERE number_1 = ? OR number_2 = ? AND lotto_id = ?";
+    $sql = "SELECT COUNT(*) as count FROM Card WHERE (number_1 = ? OR number_2 = ?) AND lotto_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('iii', $numberOne, $numberOne, $lottoId);
 }
@@ -62,7 +62,7 @@ if ($cardId != null) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('iiii', $numberTwo, $numberTwo, $lottoId, $cardId);
 } else {
-    $sql = "SELECT COUNT(*) as count FROM Card WHERE number_1 = ? OR number_2 = ? AND lotto_id = ?";
+    $sql = "SELECT COUNT(*) as count FROM Card WHERE (number_1 = ? OR number_2 = ?) AND lotto_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('iii', $numberTwo, $numberTwo, $lottoId);
 }
