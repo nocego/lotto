@@ -68,7 +68,7 @@ include_once('../layout/header.php');
             <table id="series" class="table table-striped" style="width:100%">
                 <thead>
                 <tr>
-                    <th>Name</th>
+                    <th class="no-sort">Name</th>
                     <th>Modus</th>
                     <th class="no-sort"></th>
                 </tr>
@@ -90,8 +90,15 @@ include_once('../layout/header.php');
                         } else {
                             $mode = "Undefiniert";
                         }
+                        $tableClass = "";
+                        $nextPriceThisRowSql = "SELECT * FROM Price where series_id = ".$row["ID"]." and winner_name IS NULL ORDER BY sequence ASC";
+                        $pricesToWinResult = $conn->query($nextPriceThisRowSql);
+                        $nextPriceToWinRow = $pricesToWinResult->fetch_assoc();
+                        if ($nextPriceToWinRow == null) {
+                            $tableClass = "table-success";
+                        }
                         echo "
-                            <tr>
+                            <tr class='$tableClass'>
                                 <td>" . htmlspecialchars($row["name"]) . "</td>
                                 <td>" . $mode . "</td>
                                 <td class='text-end'>
@@ -390,7 +397,8 @@ include_once('../layout/header.php');
             "columnDefs": [ {
                 "targets"  : 'no-sort',
                 "orderable": false,
-            }]
+            }],
+            "aaSorting": []
         });
         $('#cards').DataTable({
             paging: true,
